@@ -22,7 +22,7 @@
       </el-submenu>
     </el-submenu>
     <el-menu-item index="3" disabled>Info</el-menu-item>
-    <el-menu-item index="4"><a href="https://www.ele.me" target="_blank">Orders</a></el-menu-item>
+    <!--<el-menu-item index="4"><a href="https://www.ele.me" target="_blank">Orders</a></el-menu-item>-->
   </el-menu>
   </div>
 </template>
@@ -37,7 +37,6 @@ export default class topbar extends Vue {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
     .top-bar{
         width: 100%;

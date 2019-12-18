@@ -26,10 +26,10 @@ export class Student {
         this._academObligations = academObligations;
         this._group = group;
 
-        if(!firstName || !(/^[a-zA-Zа-яА-Я' ]+$/.test(firstName))) throw new Error("Недопустимое имя!");
-        if(!lastName || !(/^[a-zA-Zа-яА-Я' ]+$/.test(lastName))) throw new Error("Недопустимое имя!");
-        if(!middleName && !(/^[a-zA-Zа-яА-Я' ]+$/.test(lastName))) throw new Error("Недопустимое имя!");
-        if(age < 1) throw new Error("Недопустимый возвраст!");
+        if(!firstName || !(/^[a-zA-Zа-яА-Я' ]+$/.test(firstName))) throw new Error(`Недопустимое имя '${firstName}'!`);
+        if(!lastName || !(/^[a-zA-Zа-яА-Я' ]+$/.test(lastName))) throw new Error(`Недопустимое фамилие '${lastName}'!`);
+        if(!middleName && !(/^[a-zA-Zа-яА-Я' ]+$/.test(middleName))) throw new Error(`Недопустимое отчество '${middleName}'!`);
+        if(age < 1) throw new Error(`Недопустимый возвраст '${age}'!`);
     }
 
     get firstName(): string {
@@ -37,7 +37,7 @@ export class Student {
     }
 
     set firstName(value: string) {
-        if(!value || !(/^[a-zA-Zа-яА-Я' ]+$/.test( value))) throw new Error("Недопустимое имя!");
+        if(!value || !(/^[a-zA-Zа-яА-Я' ]+$/.test( value))) throw new Error(`Недопустимое имя '${value}'!`);
         this._firstName = value;
     }
 
@@ -46,7 +46,7 @@ export class Student {
     }
 
     set lastName(value: string) {
-        if(!value || !(/^[a-zA-Zа-яА-Я' ]+$/.test( value))) throw new Error("Недопустимое фамилие!");
+        if(!value || !(/^[a-zA-Zа-яА-Я' ]+$/.test( value))) throw new Error(`Недопустимое фамилие '${value}'!`);
         this._lastName = value;
     }
 
@@ -55,6 +55,7 @@ export class Student {
     }
 
     set middleName(value: string) {
+        if(!value && !(/^[a-zA-Zа-яА-Я' ]+$/.test(value))) throw new Error(`Недопустимое отчество '${value}'!`);
         this._middleName = value;
     }
 
@@ -79,7 +80,7 @@ export class Student {
     }
 
     set age(value: Number) {
-        if(value < 1) throw new Error("Недопустимый возвраст!");
+        if(value < 1) throw new Error(`Недопустимый возвраст '${value}'!`);
         this._age = value;
     }
 
@@ -118,8 +119,8 @@ export class Group {
         this._students = students;
 
 
-        if(!name || !(/^[a-zA-Zа-яА-Я'\- ]+$/.test(name))) throw new Error("Недопустимое имя!");
-        if(course < 1 || course > 6) throw new Error("Недопустимый курс!");
+        if(!name || !(/^[a-zA-Zа-яА-Я'\-0-9 ]+$/.test(name))) throw new Error(`Недопустимое имя '${name}'!`);
+        if(course < 1 || course > 6) throw new Error(`Недопустимый курс '${course}'!`);
     }
 
     get name(): string {
@@ -127,7 +128,7 @@ export class Group {
     }
 
     set name(value: string) {
-        if(!value || !(/^[a-zA-Zа-яА-Я'\- ]+$/.test(value))) throw new Error("Недопустимое имя!");
+        if(!value || !(/^[a-zA-Zа-яА-Я'\-0-9 ]+$/.test(value))) throw new Error(`Недопустимое имя '${value}'!`);
         this._name = value;
     }
 
@@ -144,7 +145,7 @@ export class Group {
     }
 
     set course(value: Number) {
-        if(value < 1 || value > 6) throw new Error("Недопустимый курс!");
+        if(value < 1 || value > 6) throw new Error(`Недопустимый курс '${value}'!`);
         this._course = value;
     }
 

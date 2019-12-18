@@ -1,17 +1,19 @@
 <template>
   <div id="app">
     <topbar/>
-    <img alt="Vue logo" src="./assets/logo.png">
+    <groups-list/>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import topbar from './components/topbar.vue';
+import Topbar from './components/topbar.vue';
+import GroupsList from './components/groups-list.vue';
 
 @Component({
   components: {
-    topbar,
+    Topbar,
+    GroupsList
   },
 })
 export default class App extends Vue {}
