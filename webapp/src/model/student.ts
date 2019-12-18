@@ -1,3 +1,6 @@
+//import {Group, Student, StudentType, GroupType} from "../model/student";
+
+
 export enum StudentType{
     Budget = "Бюджет",
     Commerce = "Коммерция"
