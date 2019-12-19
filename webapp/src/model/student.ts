@@ -15,6 +15,8 @@ export class Student {
     private _age : Number;
     private _academObligations : Array<string>;
     private _group : Group;
+    
+    _id : string = "";
 
     constructor(firstName: string, lastName: string, middleName: string, avgRate: Number, studType: StudentType, age: Number, academObligations: Array<string>, group: Group) {
         this._firstName = firstName;
@@ -112,11 +114,13 @@ export class Group {
     private _students : Array<Student>;
     private _groupType : GroupType;
 
-    constructor(name: string, studType: GroupType, course: Number, students: Array<Student>) {
+    _id : string = "";
+
+    constructor(name: string, groupType: GroupType, course: Number, students: Array<Student>) {
         this._name = name;
         this._course = course;
         this._students = students;
-        this._groupType = studType;
+        this._groupType = groupType;
 
 
         if(!name || !(/^[a-zA-Zа-яА-Я'\-0-9 ]+$/.test(name))) throw new Error(`Недопустимое имя '${name}'!`);

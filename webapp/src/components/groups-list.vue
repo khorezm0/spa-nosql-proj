@@ -28,6 +28,7 @@
     <div  style="margin-top: 20px;display: flex;justify-content: flex-end;">
         <el-button :disabled="!selectedElements || selectedElements.length == 0" type="danger" @click="handleSelectionDelete">Удалить</el-button>
     </div>
+    
   </div>
 </template>
 
