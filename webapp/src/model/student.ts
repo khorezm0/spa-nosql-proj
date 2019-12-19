@@ -108,19 +108,26 @@ export enum GroupType{
 
 export class Group {
     private _name : string;
-    private _groupName : GroupType;
     private _course : Number;
     private _students : Array<Student>;
+    private _groupType : GroupType;
 
     constructor(name: string, studType: GroupType, course: Number, students: Array<Student>) {
         this._name = name;
-        this._groupName = studType;
         this._course = course;
         this._students = students;
+        this._groupType = studType;
 
 
         if(!name || !(/^[a-zA-Zа-яА-Я'\-0-9 ]+$/.test(name))) throw new Error(`Недопустимое имя '${name}'!`);
         if(course < 1 || course > 6) throw new Error(`Недопустимый курс '${course}'!`);
+    }
+
+    get groupType() : GroupType{
+        return this._groupType;
+    }
+    set groupType(value: GroupType){
+        this._groupType = value;
     }
 
     get name(): string {
@@ -130,14 +137,6 @@ export class Group {
     set name(value: string) {
         if(!value || !(/^[a-zA-Zа-яА-Я'\-0-9 ]+$/.test(value))) throw new Error(`Недопустимое имя '${value}'!`);
         this._name = value;
-    }
-
-    get groupName(): GroupType {
-        return this._groupName;
-    }
-
-    set groupName(value: GroupType) {
-        this._groupName = value;
     }
 
     get course(): Number {

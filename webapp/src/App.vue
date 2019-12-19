@@ -1,7 +1,8 @@
 <template>
   <div id="app">
     <topbar/>
-    <groups-list/>
+    <groups-list title="Группы"/>
+    <students-list title="Студенты"/>
   </div>
 </template>
 
@@ -9,11 +10,13 @@
 import { Component, Vue } from 'vue-property-decorator';
 import Topbar from './components/topbar.vue';
 import GroupsList from './components/groups-list.vue';
+import StudentsList from './components/students-list.vue';
 
 @Component({
   components: {
     Topbar,
-    GroupsList
+    GroupsList,
+    StudentsList
   },
 })
 export default class App extends Vue {}

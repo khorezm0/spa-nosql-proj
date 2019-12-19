@@ -1,5 +1,6 @@
 <template>
   <div class="groups-list">
+      <h1>{{title}}</h1>
     <el-table
         empty-text="Нет данных"
         @selection-change="handleSelectionChange"
@@ -10,15 +11,13 @@
             type="selection"
             width="55">
         </el-table-column>
-        <el-table-column label="Имя" prop="firstName"></el-table-column>
-        <el-table-column label="Фамлиле" prop="lastName"></el-table-column>
-        <el-table-column label="Отчество" prop="middleName"></el-table-column>
-        <el-table-column label="Возвраст" prop="age"></el-table-column>
-        <el-table-column label="Тип учебы" prop="studType"></el-table-column>
-        <el-table-column label="Группа" prop="group"></el-table-column> 
+        <el-table-column label="Направление" prop="name"></el-table-column>
+        <el-table-column label="Курс" prop="course"></el-table-column>
+        <el-table-column label="Тип" prop="groupType"></el-table-column>
+        <el-table-column label="Студенты" prop="students"></el-table-column> 
         <el-table-column align="right" width="210">
             <template slot="header" slot-scope="scope">
-                <el-input v-model="search" size="mini" placeholder="Type to search" />
+                <el-input v-model="search" size="mini" placeholder="Поиск" />
             </template>
             <template slot-scope="scope">
                 <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">Изменить</el-button>
@@ -27,19 +26,18 @@
       </el-table-column>
     </el-table>
     <div  style="margin-top: 20px;display: flex;justify-content: flex-end;">
-        <el-button :disabled="!selectedElements" type="danger" @click="handleSelectionDelete">Удалить</el-button>
-        Selected{{selectedElements}}
+        <el-button :disabled="!selectedElements || selectedElements.length == 0" type="danger" @click="handleSelectionDelete">Удалить</el-button>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, /*Prop,*/ Vue } from "vue-property-decorator";
+import { Component, Prop, Vue } from "vue-property-decorator";
 import {Group, Student, StudentType, GroupType} from "../model/student";
 
 @Component
 export default class GroupsList extends Vue {
-  //@Prop() private msg!: string;
+  @Prop() private title!: string;
     
     search: String = "";
     selected: any = null;
@@ -47,32 +45,28 @@ export default class GroupsList extends Vue {
     get selectedElements(): any{
         return this.selected;
     }
+    set selectedElements(value:any){
+        this.selected = value;
+    }
 
-    get tableData() : Array<Student> {
-        let studs = new Array<Student>();
+    get tableData() : Array<Group> {
+        let studs = new Array<Group>();
         studs = studs.concat([
-            new Student("Akmal","Kamalov","Bahramovich",5, StudentType.Budget, 20,[], new Group("ИФСТ", GroupType.FullTime, 1, studs)),
-            new Student("Akmal","asfafw","Bahramovich",2, StudentType.Budget, 19,[], new Group("ИФСТ2", GroupType.FullTime, 2, studs)),
-            new Student("Akmal","Ramalov","Bahramovich",4, StudentType.Budget, 30,[], new Group("ИФСТ3", GroupType.FullTime, 3, studs)),
-            new Student("Akmal","Ramalov","Bahramovich",3, StudentType.Budget, 20,[], new Group("ИФСТ4", GroupType.FullTime, 4, studs)),
-            new Student("Lolka","Ramalov","Bahramovich",3, StudentType.Commerce, 20,[], new Group("Пинж", GroupType.FullTime, 5, studs)),
-            new Student("Akmal","Ramalov","Bahramovich",5, StudentType.Commerce, 20,[], new Group("ИФСТ4", GroupType.Distancelearning, 1, studs)),
-            new Student("Akmal","Ramalov","Bahramovich",5, StudentType.Commerce, 20,[], new Group("ИФСТ3", GroupType.Distancelearning, 1, studs)),
-            new Student("Akmal","Ramalov","Bahramovich",5, StudentType.Budget, 20,[], new Group("ИФСТ2", GroupType.Distancelearning, 1, studs)),
-            new Student("Akmal","Ramalov","aefsfdsd",5, StudentType.Budget, 20,[], new Group("ИФСТ1", GroupType.FullTime, 1, studs)),
-            new Student("Akmal","Ramalov","Bahramovich",5, StudentType.Budget, 20,[], new Group("ИФСТ", GroupType.FullTime, 4, studs)),
+            new Group("ИФСТ", GroupType.FullTime, 1, new Array<Student>()), 
+            new Group("ИФСТ3", GroupType.FullTime, 2, new Array<Student>()),
+            new Group("ИФСТ4", GroupType.FullTime, 2, new Array<Student>()),
+            new Group("ИФСТ5", GroupType.FullTime, 2, new Array<Student>()),
+            new Group("ИФСТ6", GroupType.FullTime, 2, new Array<Student>())
         ]);
         return studs;
     }
 
-    get filterTableData() : Array<Student> {
-        return this.tableData.filter(data => !this.search
-                || (data.firstName && data.firstName.toLowerCase().includes(this.search.toLowerCase()))
-                || (data.lastName && data.lastName.toLowerCase().includes(this.search.toLowerCase()))
-                || (data.middleName && data.middleName.toLowerCase().includes(this.search.toLowerCase()))
-                || (data.age && data.age.toString().toLowerCase().includes(this.search.toLowerCase()))
-                || (data.studType && data.studType.toString().toLowerCase().includes(this.search.toLowerCase()))
-                || (data.avgRate && data.avgRate.toString().toLowerCase().includes(this.search.toLowerCase()))
+    get filterTableData() : Array<Group> {
+        return this.tableData.filter(
+                data => !this.search
+                || (data.name && data.name.toLowerCase().includes(this.search.toLowerCase()))
+                || (data.course && data.course.toString().toLowerCase().includes(this.search.toLowerCase()))
+                || (data.groupType && data.groupType.toString().toLowerCase().includes(this.search.toLowerCase()))
         );
     }
 
@@ -90,8 +84,9 @@ export default class GroupsList extends Vue {
         this.selected = val;
     }
 
-    handleSelectionChange(index : Number, row : Number) {
-        console.log(index, row);
+    
+    handleSelectionChange(rows:any) {
+        this.selectedElements = rows;
     }
 }
 </script>
