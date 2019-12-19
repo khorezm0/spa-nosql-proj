@@ -2,7 +2,7 @@
   <div id="app">
     <topbar/>
     <groups-list title="Группы"/>
-    <students-list title="Студенты"/>
+    <students-list title="Студенты" :isEditable="true" :isReturnable="true"/>
   </div>
 </template>
 
