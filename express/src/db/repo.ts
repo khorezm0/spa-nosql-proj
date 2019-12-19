@@ -1,23 +1,23 @@
 import * as mongoose from "mongoose";
 
 const StudentScheme = new mongoose.Schema({
-    firstName: String,
-    lastName: String,
-    middleName: String,
-    avgRate : Number,
-    studType : String,
-    age : Number,
-    academObligations : Array,
-    group : {
+    FirstName: String,
+    LastName: String,
+    MiddleName: String,
+    AvgRate : Number,
+    StudType : String,
+    Age : Number,
+    AcademObligations : [{type: String}],
+    Group : {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'groups'
     }
 });
 const GroupScheme = new mongoose.Schema({
-    name: String,
-    course: Number,
-    groupType : String,
-    students : [{
+    Name: String,
+    Course: Number,
+    GroupType : String,
+    Students : [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'students'
     }]
@@ -31,7 +31,7 @@ export class Repo {
     public static StudentModel = mongoose.model('students', StudentScheme);
     public static GroupModel = mongoose.model('groups', GroupScheme);
 
-    constructor(connectionString : string = "mongodb://localhost:27017"){
+    constructor(connectionString : string = "mongodb://localhost:27017/study"){
         this._connectionString = connectionString;
     }
 

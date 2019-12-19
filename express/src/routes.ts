@@ -33,9 +33,9 @@ export const AppRoutes = [
         method: "post",
         action: async (request: Request, response: Response) => {
             try {
-                let item: any = await Repo.StudentModel.create(request.body);
-                await Repo.StudentModel.save((err) => {
-                    if(err) console.log(err);
+                //console.log(request.body);
+                let item: any = await new Repo.StudentModel(request.body).save(function (err, res) {
+                    if(err) console.log("ERRR: "+err);
                 });
                 response.json(item);
             } catch (ex) {

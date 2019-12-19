@@ -16,7 +16,7 @@
         <el-table-column label="Тип" prop="groupType"></el-table-column>
         <el-table-column label="Студенты" prop="students"></el-table-column> 
         <el-table-column align="right" width="210">
-            <template slot="header" slot-scope="scope">
+            <template slot="header">
                 <el-input v-model="search" size="mini" placeholder="Поиск" />
             </template>
             <template slot-scope="scope">

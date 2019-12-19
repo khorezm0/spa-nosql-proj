@@ -11,6 +11,11 @@ import {Repo} from "./db/repo";
 // create express app
 const app = express();
 app.use(bodyParser.json());
+app.use(function(req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Headers', 'origin, content-type, accept');
+    next();
+  });
 
 // register all application routes
 AppRoutes.forEach(route => {

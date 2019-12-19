@@ -7,99 +7,99 @@ export enum StudentType{
 }
 
 export class Student {
-    private _firstName: string;
-    private _lastName: string;
-    private _middleName: string;
-    private _avgRate : Number;
-    private _studType : StudentType;
-    private _age : Number;
-    private _academObligations : Array<string>;
-    private _group : Group;
+    private FirstName: string | null;
+    private LastName: string | null;
+    private MiddleName: string | null;
+    private AvgRate : Number | null;
+    private StudType : StudentType | null;
+    private Age : Number | null;
+    private AcademObligations : Array<string> | null;
+    private Group : Group | null;
     
-    _id : string = "";
+    _id : string | null | undefined =undefined;
 
-    constructor(firstName: string, lastName: string, middleName: string, avgRate: Number, studType: StudentType, age: Number, academObligations: Array<string>, group: Group) {
-        this._firstName = firstName;
-        this._lastName = lastName;
-        this._middleName = middleName;
-        this._avgRate = avgRate;
-        this._studType = studType;
-        this._age = age;
-        this._academObligations = academObligations;
-        this._group = group;
+    constructor(firstName: string | null = null, lastName: string | null = null, middleName: string | null = null, avgRate: Number  | null = null, studType: StudentType | null = null, age: Number | null = null, academObligations: Array<string> | null = null, group: Group | null = null) {
+        this.FirstName = firstName;
+        this.LastName = lastName;
+        this.MiddleName = middleName;
+        this.AvgRate = avgRate;
+        this.StudType = studType;
+        this.Age = age;
+        this.AcademObligations = academObligations;
+        this.Group = group;
 
-        if(!firstName || !(/^[a-zA-Zа-яА-Я' ]+$/.test(firstName))) throw new Error(`Недопустимое имя '${firstName}'!`);
-        if(!lastName || !(/^[a-zA-Zа-яА-Я' ]+$/.test(lastName))) throw new Error(`Недопустимое фамилие '${lastName}'!`);
-        if(!middleName && !(/^[a-zA-Zа-яА-Я' ]+$/.test(middleName))) throw new Error(`Недопустимое отчество '${middleName}'!`);
-        if(age < 1) throw new Error(`Недопустимый возвраст '${age}'!`);
+        if(firstName && !(/^[a-zA-Zа-яА-Я' ]+$/.test(firstName))) throw new Error(`Недопустимое имя '${firstName}'!`);
+        if(lastName && !(/^[a-zA-Zа-яА-Я' ]+$/.test(lastName))) throw new Error(`Недопустимое фамилие '${lastName}'!`);
+        if(middleName && !(/^[a-zA-Zа-яА-Я' ]+$/.test(middleName))) throw new Error(`Недопустимое отчество '${middleName}'!`);
+        if(age && age < 1) throw new Error(`Недопустимый возвраст '${age}'!`);
     }
 
-    get firstName(): string {
-        return this._firstName;
+    get firstName(): string | null {
+        return this.FirstName;
     }
 
-    set firstName(value: string) {
-        if(!value || !(/^[a-zA-Zа-яА-Я' ]+$/.test( value))) throw new Error(`Недопустимое имя '${value}'!`);
-        this._firstName = value;
+    set firstName(value: string | null) {
+        if(value && !(/^[a-zA-Zа-яА-Я' ]+$/.test( value))) throw new Error(`Недопустимое имя '${value}'!`);
+        this.FirstName = value;
     }
 
-    get lastName(): string {
-        return this._lastName;
+    get lastName(): string | null {
+        return this.LastName;
     }
 
-    set lastName(value: string) {
-        if(!value || !(/^[a-zA-Zа-яА-Я' ]+$/.test( value))) throw new Error(`Недопустимое фамилие '${value}'!`);
-        this._lastName = value;
+    set lastName(value: string | null) {
+        if(value && !(/^[a-zA-Zа-яА-Я' ]+$/.test( value))) throw new Error(`Недопустимое фамилие '${value}'!`);
+        this.LastName = value;
     }
 
-    get middleName(): string {
-        return this._middleName;
+    get middleName(): string | null {
+        return this.MiddleName;
     }
 
-    set middleName(value: string) {
-        if(!value && !(/^[a-zA-Zа-яА-Я' ]+$/.test(value))) throw new Error(`Недопустимое отчество '${value}'!`);
-        this._middleName = value;
+    set middleName(value: string | null) {
+        if(value && !(/^[a-zA-Zа-яА-Я' ]+$/.test(value))) throw new Error(`Недопустимое отчество '${value}'!`);
+        this.MiddleName = value;
     }
 
-    get avgRate(): Number {
-        return this._avgRate;
+    get avgRate(): Number | null {
+        return this.AvgRate;
     }
 
-    set avgRate(value: Number) {
-        this._avgRate = value;
+    set avgRate(value: Number | null) {
+        this.AvgRate = value;
     }
 
-    get studType(): StudentType {
-        return this._studType;
+    get studType(): StudentType | null {
+        return this.StudType;
     }
 
-    set studType(value: StudentType) {
-        this._studType = value;
+    set studType(value: StudentType | null) {
+        this.StudType = value;
     }
 
-    get age(): Number {
-        return this._age;
+    get age(): Number | null {
+        return this.Age;
     }
 
-    set age(value: Number) {
-        if(value < 1) throw new Error(`Недопустимый возвраст '${value}'!`);
-        this._age = value;
+    set age(value: Number | null) {
+        if(value && value < 1) throw new Error(`Недопустимый возвраст '${value}'!`);
+        this.Age = value;
     }
 
-    get academObligations(): Array<string> {
-        return this._academObligations;
+    get academObligations(): Array<string> | null {
+        return this.AcademObligations;
     }
 
-    set academObligations(value: Array<string>) {
-        this._academObligations = value;
+    set academObligations(value: Array<string> | null) {
+        this.AcademObligations = value;
     }
 
-    get group(): Group {
-        return this._group;
+    get group(): Group | null {
+        return this.Group;
     }
 
-    set group(value: Group) {
-        this._group = value;
+    set group(value: Group | null) {
+        this.Group = value;
     }
 
 }
@@ -109,54 +109,54 @@ export enum GroupType{
 }
 
 export class Group {
-    private _name : string;
-    private _course : Number;
-    private _students : Array<Student>;
-    private _groupType : GroupType;
+    private Name : string | null;
+    private Course : Number | null;
+    private Students : Array<Student> | null;
+    private GroupType : GroupType | null;
 
-    _id : string = "";
+    _id : string| null | undefined = undefined;
 
-    constructor(name: string, groupType: GroupType, course: Number, students: Array<Student>) {
-        this._name = name;
-        this._course = course;
-        this._students = students;
-        this._groupType = groupType;
+    constructor(name: string | null = null, groupType: GroupType | null = null, course: Number | null = null, students: Array<Student> | null = null) {
+        this.Name = name;
+        this.Course = course;
+        this.Students = students;
+        this.GroupType = groupType;
 
 
-        if(!name || !(/^[a-zA-Zа-яА-Я'\-0-9 ]+$/.test(name))) throw new Error(`Недопустимое имя '${name}'!`);
-        if(course < 1 || course > 6) throw new Error(`Недопустимый курс '${course}'!`);
+        if(name && !(/^[a-zA-Zа-яА-Я'\-0-9 ]+$/.test(name))) throw new Error(`Недопустимое имя '${name}'!`);
+        if(course && (course < 1 || course > 6)) throw new Error(`Недопустимый курс '${course}'!`);
     }
 
-    get groupType() : GroupType{
-        return this._groupType;
+    get groupType() : GroupType | null{
+        return this.GroupType;
     }
-    set groupType(value: GroupType){
-        this._groupType = value;
-    }
-
-    get name(): string {
-        return this._name;
+    set groupType(value: GroupType | null){
+        this.GroupType = value;
     }
 
-    set name(value: string) {
-        if(!value || !(/^[a-zA-Zа-яА-Я'\-0-9 ]+$/.test(value))) throw new Error(`Недопустимое имя '${value}'!`);
-        this._name = value;
+    get name(): string | null {
+        return this.Name;
     }
 
-    get course(): Number {
-        return this._course;
+    set name(value: string | null) {
+        if(value && !(/^[a-zA-Zа-яА-Я'\-0-9 ]+$/.test(value))) throw new Error(`Недопустимое имя '${value}'!`);
+        this.Name = value;
     }
 
-    set course(value: Number) {
-        if(value < 1 || value > 6) throw new Error(`Недопустимый курс '${value}'!`);
-        this._course = value;
+    get course(): Number | null {
+        return this.Course;
     }
 
-    get students(): Array<Student> {
-        return this._students;
+    set course(value: Number | null) {
+        if(value && (value < 1 || value > 6)) throw new Error(`Недопустимый курс '${value}'!`);
+        this.Course = value;
     }
 
-    set students(value: Array<Student>) {
-        this._students = value;
+    get students(): Array<Student> | null {
+        return this.Students;
+    }
+
+    set students(value: Array<Student> | null) {
+        this.Students = value;
     }
 }

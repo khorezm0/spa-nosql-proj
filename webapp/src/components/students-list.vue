@@ -18,7 +18,7 @@
         <el-table-column label="Тип учебы" prop="studType"></el-table-column>
         <el-table-column label="Группа" prop="group"></el-table-column> 
         <el-table-column align="right" width="210">
-            <template slot="header" slot-scope="scope">
+            <template slot="header" >
                 <el-input v-model="search" size="mini" placeholder="Поиск" />
             </template>
             <template slot-scope="scope">
@@ -28,14 +28,67 @@
       </el-table-column>
     </el-table>
     <div  style="margin-top: 20px;display: flex;justify-content: flex-end;">
+        <el-button type="primary" @click="isAddModelDialogEnabled = true">Добавть</el-button>
         <el-button :disabled="!selectedElements || selectedElements.length == 0" type="danger" @click="handleSelectionDelete">Удалить</el-button>
     </div>
+
+    <el-dialog title="Добавление" :visible.sync="isAddModelDialogEnabled">
+        <el-form :model="addStudentForm">
+            <el-form-item label="Имя">
+                <el-input v-model="addStudentForm.firstName" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="Фамилие">
+                <el-input v-model="addStudentForm.lastName" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="Отчество">
+                <el-input v-model="addStudentForm.middleName" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="Возвраст">
+                <el-input v-model="addStudentForm.age" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="Средний балл">
+                <el-input v-model="addStudentForm.avgRate" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="Задолжности">
+                <el-select
+                    v-model="addStudentForm.academObligations"
+                    multiple
+                    filterable
+                    allow-create
+                    default-first-option
+                    empty-text="Нет записей"
+                    no-data-text="Нет записей"
+                    placeholder="Добавить предмет"
+                    loading-text="Загрузка"
+                    no-match-text="Нет совпадений"
+                    >
+                    <el-option
+                        v-for="item in addStudentForm.academObligations"
+                        :key="item"
+                        :label="item"
+                        :value="item">
+                    </el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item label="Форма обучения">
+                <el-select v-model="addStudentForm.studType" placeholder="Форма обучения">
+                    <el-option value="Бюджет"></el-option>
+                    <el-option value="Коммерция"></el-option>
+                </el-select>
+            </el-form-item>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+            <el-button @click="isAddModelDialogEnabled = false">Cancel</el-button>
+            <el-button type="primary" @click="sendCreate">Confirm</el-button>
+        </span>
+    </el-dialog>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import {Group, Student, StudentType, GroupType} from "../model/student";
+import {ApiService} from "../backservice"
 
 @Component
 export default class StudentsList extends Vue {
@@ -44,6 +97,10 @@ export default class StudentsList extends Vue {
     
     search: String = "";
     selected: any = null;
+    isAddModelDialogEnabled : Boolean = false;
+    addStudentForm : Student = new Student();
+    api : ApiService = new ApiService("http://localhost:3000");
+    tableChache : Array<Student> | null = null;
 
     get selectedElements(): any{
         return this.selected;
@@ -54,24 +111,24 @@ export default class StudentsList extends Vue {
     }
 
     get tableData() : Array<Student> {
-        let studs = new Array<Student>();
-        studs = studs.concat([
-            new Student("Akmal","Kamalov","Bahramovich",5, StudentType.Budget, 20,[], new Group("ИФСТ", GroupType.FullTime, 1, studs)),
-            new Student("Akmal","asfafw","Bahramovich",2, StudentType.Budget, 19,[], new Group("ИФСТ2", GroupType.FullTime, 2, studs)),
-            new Student("Akmal","Ramalov","Bahramovich",4, StudentType.Budget, 30,[], new Group("ИФСТ3", GroupType.FullTime, 3, studs)),
-            new Student("Akmal","Ramalov","Bahramovich",3, StudentType.Budget, 20,[], new Group("ИФСТ4", GroupType.FullTime, 4, studs)),
-            new Student("Lolka","Ramalov","Bahramovich",3, StudentType.Commerce, 20,[], new Group("Пинж", GroupType.FullTime, 5, studs)),
-            new Student("Akmal","Ramalov","Bahramovich",5, StudentType.Commerce, 20,[], new Group("ИФСТ4", GroupType.Distancelearning, 1, studs)),
-            new Student("Akmal","Ramalov","Bahramovich",5, StudentType.Commerce, 20,[], new Group("ИФСТ3", GroupType.Distancelearning, 1, studs)),
-            new Student("Akmal","Ramalov","Bahramovich",5, StudentType.Budget, 20,[], new Group("ИФСТ2", GroupType.Distancelearning, 1, studs)),
-            new Student("Akmal","Ramalov","aefsfdsd",5, StudentType.Budget, 20,[], new Group("ИФСТ1", GroupType.FullTime, 1, studs)),
-            new Student("Akmal","Ramalov","Bahramovich",5, StudentType.Budget, 20,[], new Group("ИФСТ", GroupType.FullTime, 4, studs)),
-        ]);
-        return studs;
+        //let studs = new Array<Student>();
+        // studs = studs.concat([
+        //     new Student("Akmal","Kamalov","Bahramovich",5, StudentType.Budget, 20,[], new Group("ИФСТ", GroupType.FullTime, 1, studs)),
+        //     new Student("Akmal","asfafw","Bahramovich",2, StudentType.Budget, 19,[], new Group("ИФСТ2", GroupType.FullTime, 2, studs)),
+        //     new Student("Akmal","Ramalov","Bahramovich",4, StudentType.Budget, 30,[], new Group("ИФСТ3", GroupType.FullTime, 3, studs)),
+        //     new Student("Akmal","Ramalov","Bahramovich",3, StudentType.Budget, 20,[], new Group("ИФСТ4", GroupType.FullTime, 4, studs)),
+        //     new Student("Lolka","Ramalov","Bahramovich",3, StudentType.Commerce, 20,[], new Group("Пинж", GroupType.FullTime, 5, studs)),
+        //     new Student("Akmal","Ramalov","Bahramovich",5, StudentType.Commerce, 20,[], new Group("ИФСТ4", GroupType.Distancelearning, 1, studs)),
+        //     new Student("Akmal","Ramalov","Bahramovich",5, StudentType.Commerce, 20,[], new Group("ИФСТ3", GroupType.Distancelearning, 1, studs)),
+        //     new Student("Akmal","Ramalov","Bahramovich",5, StudentType.Budget, 20,[], new Group("ИФСТ2", GroupType.Distancelearning, 1, studs)),
+        //     new Student("Akmal","Ramalov","aefsfdsd",5, StudentType.Budget, 20,[], new Group("ИФСТ1", GroupType.FullTime, 1, studs)),
+        //     new Student("Akmal","Ramalov","Bahramovich",5, StudentType.Budget, 20,[], new Group("ИФСТ", GroupType.FullTime, 4, studs)),
+        // ]);
+        return this.tableChache;
     }
 
     get filterTableData() : Array<Student> {
-        return this.tableData.filter(data => !this.search
+        return (!this.tableData) ? new Array<Student>() : this.tableData.filter(data => !this.search
                 || (data.firstName && data.firstName.toLowerCase().includes(this.search.toLowerCase()))
                 || (data.lastName && data.lastName.toLowerCase().includes(this.search.toLowerCase()))
                 || (data.middleName && data.middleName.toLowerCase().includes(this.search.toLowerCase()))
@@ -79,6 +136,21 @@ export default class StudentsList extends Vue {
                 || (data.studType && data.studType.toString().toLowerCase().includes(this.search.toLowerCase()))
                 || (data.avgRate && data.avgRate.toString().toLowerCase().includes(this.search.toLowerCase()))
         );
+    }
+
+    mounted():void{
+        this.api.getStudents((arr,err)=>{
+            if(!err){
+                this.tableChache = arr;
+            }else{
+                console.log(err);
+            }
+        })
+    }
+
+    sendCreate(): void{
+        this.isAddModelDialogEnabled = false;
+        this.api.addNewStudent(this.addStudentForm);
     }
 
     handleSelect(): void {}
