@@ -1,6 +1,6 @@
 <template>
     <div class="groups-list">
-        <h1>{{title}}</h1>
+        <h1>{{componentTitle}}</h1>
         <el-table
                 empty-text="Нет данных"
                 @selection-change="handleSelectionChange"
@@ -113,7 +113,7 @@
                 v-if="isAddStudentsDialog"
         >
             <span>
-                <students-list v-on:students-selection-changed="addGroupSelectionChange" :isEditable="false" :isReturnable="true"></students-list>
+                <students-list v-on:students-selection-changed="addGroupSelectionChange" :isNotEditable="true" :isReturnable="true"></students-list>
             </span>
             <span slot="footer" class="dialog-footer" style="text-align: center!important;">
                 <el-button @click="isAddStudentsDialog = false">Отмена</el-button>
@@ -152,6 +152,11 @@
 
         currDeleteFunction: Function = () => {
         };
+
+        get componentTitle(){
+            if(this.title) return this.title;
+            return "Группы";
+        }
 
         get tableData(): Array<Group> {
             let arr: Array<Group> = [];

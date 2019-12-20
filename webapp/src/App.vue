@@ -1,8 +1,9 @@
 <template>
   <div id="app">
     <topbar/>
-    <groups-list title="Группы"/>
-    <students-list title="Студенты" :isEditable="true" :isReturnable="true"/>
+    <router-view></router-view>
+    <!--<groups-list title="Группы" />-->
+    <!--<students-list title="Студенты" :isEditable="true" :isReturnable="true"/>-->
   </div>
 </template>
 
@@ -19,7 +20,9 @@ import StudentsList from './components/students-list.vue';
     StudentsList
   },
 })
-export default class App extends Vue {}
+export default class App extends Vue {
+
+}
 </script>
 
 <style>

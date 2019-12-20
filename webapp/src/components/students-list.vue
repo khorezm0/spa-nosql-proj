@@ -1,6 +1,6 @@
 <template>
     <div class="stud-list">
-        <h1 v-if="title && title.trim().length > 0">{{title}}</h1>
+        <h1 v-if="componentTitle && componentTitle.trim().length > 0">{{componentTitle}}</h1>
         <el-table
                 empty-text="Нет данных"
                 @selection-change="handleSelectionChange"
@@ -10,7 +10,7 @@
             <el-table-column
                     type="selection"
                     width="55"
-                    v-if="isReturnable || isEditable"
+                    v-if="isReturnable || !isNotEditable"
             >
             </el-table-column>
             <el-table-column label="Имя" prop="firstName"></el-table-column>
@@ -20,7 +20,7 @@
             <el-table-column label="Форма обучения" prop="studType"></el-table-column>
             <el-table-column label="Группа" prop="group" :formatter="groupFormatter"></el-table-column>
             <el-table-column label="Задолжности" prop="academObligations" :formatter='obligsToString'></el-table-column>
-            <el-table-column align="right" width="210" v-if="isEditable">
+            <el-table-column align="right" width="210" v-if="!isNotEditable">
                 <template slot="header">
                     <el-input v-model="search" size="mini" placeholder="Поиск"/>
                 </template>
@@ -35,13 +35,13 @@
             </el-table-column>
         </el-table>
         <div style="margin-top: 20px;display: flex;justify-content: flex-end;">
-            <el-button :disabled="!selected || selected.length === 0" v-if="isEditable"
+            <el-button :disabled="!selected || selected.length === 0" v-if="!isNotEditable"
                        @click="
                    currDeleteFunction = handleSelectionDelete;
                    deleteDialogVisible = true"
                        type="danger">Удалить
             </el-button>
-            <el-button type="primary" @click="handleAdd" v-if="isEditable">Добавить</el-button>
+            <el-button type="primary" @click="handleAdd" v-if="!isNotEditable">Добавить</el-button>
         </div>
 
         <el-dialog :title="formDialogTitle" :visible.sync="isAddModelDialogEnabled" width="383px">
@@ -124,7 +124,7 @@
     @Component
     export default class StudentsList extends Vue {
         @Prop() private title!: string;
-        @Prop() private isEditable!: boolean;
+        @Prop() private isNotEditable!: boolean ;
         @Prop() private isReturnable!: boolean;
         @Prop() private handleChange!:string;
         //@Prop() private msg!: string;
@@ -144,6 +144,11 @@
 
         currDeleteFunction: Function = () => {
         };
+
+        get componentTitle(){
+            if(this.title) return this.title;
+            return "Студенты";
+        }
 
         get tableData(): Array<Student> {
             let arr: Array<Student> = [];
